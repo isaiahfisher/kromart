@@ -11,7 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('locations', function (Blueprint $table) {
+            $table->id();
+            $table->string('street');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zipcode');
+            $table->string('country');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::drop('locations');
     }
 };
