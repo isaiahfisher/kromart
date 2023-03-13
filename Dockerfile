@@ -10,6 +10,7 @@ RUN composer install \
 FROM node:16 as frontend
 WORKDIR /app
 COPY . .
+COPY --from=vendor --chown=nginx:nginx /app/vendor /app/vendor
 RUN npm install
 RUN npm run build
 
