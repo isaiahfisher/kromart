@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('stores', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('warehouse_id')->constrained()->onDelete('cascade');
+            $table->foreignId('location_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['active', 'maintenance', 'inactive']);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::drop('stores');
     }
 };

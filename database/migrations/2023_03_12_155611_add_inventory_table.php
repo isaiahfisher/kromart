@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('inventories', function (Blueprint $table) {
+            $table->id();
+            $table->foriegnId('store_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foriegnId('warehouse_id')->nullable()->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::drop('inventories');
     }
 };

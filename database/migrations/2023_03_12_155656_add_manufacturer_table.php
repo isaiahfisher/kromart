@@ -11,7 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('manufacturers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('location_id')->nullable()->constrained()->onDelete('cascade');
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::drop('manufacturers');
     }
 };

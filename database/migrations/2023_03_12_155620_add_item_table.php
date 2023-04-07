@@ -11,7 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('items', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('sku');
+            $table->text('description')->nullable();
+            $table->string('category')->nullable();
+            $table->decimal('msrp', $precision = 8, $scale = 2);
+            $table->foreignId('manufacturer_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::drop('items');
     }
 };
