@@ -11,7 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('customers', function (Blueprint $table) {
+            $table->id();
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->enum('rewards_tier', ['bronze', 'silver', 'gold', 'platinum'])->nullable();
+            $table->foreignId('location_id')->constrained()->onDelete('cascade');
+            $table->string('email');
+            $table->timestamps();
+        });
     }
 
     /**
