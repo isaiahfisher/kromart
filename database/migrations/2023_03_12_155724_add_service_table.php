@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreign('courier_id')->references('id')->on('couriers')->onDelete('cascade');
+            $table->foreignId('courier_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('service_code')->unique();
             $table->timestamps();

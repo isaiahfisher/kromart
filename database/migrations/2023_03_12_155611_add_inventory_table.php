@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foriegnId('store_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foriegnId('warehouse_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('store_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
