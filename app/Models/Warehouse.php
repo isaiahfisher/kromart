@@ -13,4 +13,9 @@ class Warehouse extends Model
     {
         return $this->hasOne(Inventory::class);
     }
+
+    public function employees(): BelongsToMany
+    {
+        return $this->belongsToMany(Employee::class)->using(WarehouseEmployee::class);
+    }
 }
