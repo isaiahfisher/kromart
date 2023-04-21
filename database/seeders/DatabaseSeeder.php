@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Employee;
+use App\Models\Item;
+use App\Models\Inventory;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +16,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Employee::factory()->count(5)->forLocation()->create();
+        Inventory::factory()->count(5)->create();
+        $items = Item::factory()->count(5)->hasAttached(Inventory::factory()->count(4),
+            [
+                'quantity' => random_int(1,100),
+                'aisle' => random_int(1,20),
+                'shelf' => chr(rand(65,90)),
+                'batch' => Str::uuid(),
+                'expiry_date' => date('Y-m-d', strtotime("+1 week"))
+            ]
+        )->forManufacturer()->make();
+        foreach ($items as $item)
+            $item->save();
     }
 }
