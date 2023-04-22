@@ -16,6 +16,8 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
-        return [];
+        return [
+            'total_cost' => fake()->randomFloat(8,.99, 100000.00)
+        ];
     }
 }
