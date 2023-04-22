@@ -19,8 +19,7 @@ class WarehouseFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'status' => fake()->randomElement(['active', 'maintenance', 'inactive']),
-            'location_id' => Location::inRandomOrder()->first()->id
+            'status' => fake()->randomElement(['active', 'maintenance', 'inactive'])
         ];
     }
 }

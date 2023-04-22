@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
@@ -24,5 +25,10 @@ class Inventory extends Model
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class)->using(InventoryItem::class);
+    }
+
+    public function promotions(): HasMany
+    {
+        return $this->hasMany(Promotion::class);
     }
 }

@@ -17,7 +17,10 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'firstname' => fake()->firstname(),
+            'lastname' => fake()->lastname(),
+            'rewards_tier' => fake()->optional($weight = .75)->randomElement(['bronze', 'silver', 'gold', 'platinum']),
+            'email' => fake()->unique()->email()
         ];
     }
 }

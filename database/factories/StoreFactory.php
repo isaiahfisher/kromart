@@ -18,17 +18,9 @@ class StoreFactory extends Factory
      */
     public function definition(): array
     {
-        $warehouse = Warehouse::factory()->count(1)->make()[0];
-        $warehouse->save();
-
-        $location = Location::factory()->count(1)->make()[0];
-        $location->save();
-
         return [
             'name' => fake()->company(),
             'status' => fake()->randomElement(['active', 'maintenance', 'inactive']),
-            'warehouse_id' => $warehouse->id,
-            'location_id' => $location->id
         ];
     }
 }

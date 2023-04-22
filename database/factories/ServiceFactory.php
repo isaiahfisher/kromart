@@ -17,7 +17,8 @@ class ServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->randomElement(['ground', 'air', 'express', 'two day', 'priority']),
+            'service_code' => fake()->unique()->uuid()
         ];
     }
 }
