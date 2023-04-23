@@ -32,4 +32,9 @@ class Store extends Model
     {
         return $this->hasMany(Promotion::class);
     }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
 }

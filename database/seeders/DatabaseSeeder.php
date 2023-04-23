@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 use App\Models\Item;
@@ -25,8 +24,53 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
         for ($i = 0; $i < 100; $i++)
         {
+
+            $location = Location::factory()->count(1)->create()[0];
+            $warehouse = Warehouse::factory()->count(1)->for($location)->has(
+                Employee::factory()->count(75)->state(
+                    [
+                        'location_id' => Location::factory()->state(
+                            [
+                                'city' => $location->city,
+                                'state' => $location->state,
+                                'country' => $location->country
+                            ]
+                        )
+                    ]
+                )
+            )->create()[0];
+
+            Store::factory()->count(2)->for($warehouse)->state(
+                [
+                    'location_id' => Location::factory()->state(
+                        [
+                            'city' => $location->city,
+                            'state' => $location->state,
+                            'country' => $location->country
+                        ]
+                    )
+                ]
+            )->has(
+                Employee::factory()->count(30)->state(
+                    [
+                        'location_id' => Location::factory()->state(
+                            [
+                                'city' => $location->city,
+                                'state' => $location->state,
+                                'country' => $location->country
+                            ]
+                        )
+                    ]
+                )
+            )->create();
+
+            Courier::factory()->count(5)->has(Service::factory()->count(10))->create();
+            die('check db');
+
+            //old
             Location::factory()->count(1)->has(
                 Warehouse::factory()->count(5)->has( 
                     Employee::factory()->count(25)->for(
