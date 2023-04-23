@@ -13,6 +13,7 @@ class InventoryItem extends Pivot
     use HasFactory;
 
     public $incrementing = true;
+    public $table = 'inventory_item';
 
     public function inventory(): BelongsTo
     {
@@ -26,7 +27,7 @@ class InventoryItem extends Pivot
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_inventory_items')->as('order_inventory_items')->using(OrderInventoryItem::class)->withTimestamps();
+        return $this->belongsToMany(Order::class, 'order_inventory_items', 'inventory_item_id', 'order_id')->as('order_inventory_items')->using(OrderInventoryItem::class)->withTimestamps();
     }
 
 }
