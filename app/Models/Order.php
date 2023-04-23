@@ -18,6 +18,6 @@ class Order extends Model
 
     public function inventory_items(): BelongsToMany
     {
-        return $this->belongsToMany(InventoryItem::class, 'order_inventory_items')->as('order_inventory_items')->using(OrderInventoryItem::class);
+        return $this->belongsToMany(InventoryItem::class, 'order_inventory_items')->as('order_inventory_items')->using(OrderInventoryItem::class)->withTimestamps();
     }
 }

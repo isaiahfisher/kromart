@@ -18,11 +18,11 @@ class Employee extends Model
 
     public function warehouses(): BelongsToMany
     {
-        return $this->belongsToMany(Warehouse::class, 'warehouse_employees')->as('warehouse_employees')->using(WarehouseEmployee::class);
+        return $this->belongsToMany(Warehouse::class, 'warehouse_employees')->as('warehouse_employees')->using(WarehouseEmployee::class)->withTimestamps();
     }
 
     public function stores(): BelongsToMany
     {
-        return $this->belongsToMany(Store::class, 'store_employees')->as('store_employees')->using(StoreEmployee::class);
+        return $this->belongsToMany(Store::class, 'store_employees')->as('store_employees')->using(StoreEmployee::class)->withTimestamps();
     }
 }

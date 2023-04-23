@@ -20,7 +20,7 @@ class Warehouse extends Model
 
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(Employee::class, 'warehouse_employees')->as('warehouse_employees')->using(WarehouseEmployee::class);
+        return $this->belongsToMany(Employee::class, 'warehouse_employees')->as('warehouse_employees')->using(WarehouseEmployee::class)->withTimestamps();
     }
 
     public function location(): BelongsTo

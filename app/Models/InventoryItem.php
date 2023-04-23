@@ -26,7 +26,7 @@ class InventoryItem extends Pivot
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_inventory_items')->as('order_inventory_items')->using(OrderInventoryItem::class);
+        return $this->belongsToMany(Order::class, 'order_inventory_items')->as('order_inventory_items')->using(OrderInventoryItem::class)->withTimestamps();
     }
 
 }

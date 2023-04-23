@@ -20,7 +20,7 @@ class Store extends Model
 
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(Employee::class, 'store_employees')->as('store_employees')->using(StoreEmployee::class);
+        return $this->belongsToMany(Employee::class, 'store_employees')->as('store_employees')->using(StoreEmployee::class)->withTimestamps();
     }
 
     public function warehouse(): BelongsTo

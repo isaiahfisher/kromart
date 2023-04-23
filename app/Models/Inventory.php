@@ -24,7 +24,7 @@ class Inventory extends Model
 
     public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class)->using(InventoryItem::class);
+        return $this->belongsToMany(Item::class)->using(InventoryItem::class)->withTimestamps();
     }
 
     public function promotions(): HasMany

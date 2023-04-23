@@ -16,6 +16,7 @@ use App\Models\Service;
 use App\Models\Store;
 use App\Models\Warehouse;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -41,6 +42,19 @@ class DatabaseSeeder extends Seeder
                         )
                     ]
                 )
+            )->has(
+                Inventory::factory()->count(1)->hasAttached(
+                    Item::factory()->count(500)->state([
+                        'manufacturer_id' => Manufacturer::factory()
+                    ]),
+                    fn() => [
+                        'quantity' => random_int(1,100),
+                        'aisle' => random_int(1,10),
+                        'shelf' => chr(rand(65,90)),
+                        'batch' => Str::uuid(),
+                        'expiry_date' => now()->addDays(rand(0, now()->diffInDays(now()->addMonths(1))))
+                    ]
+                )
             )->create()[0];
 
             Store::factory()->count(2)->for($warehouse)->state(
@@ -63,6 +77,19 @@ class DatabaseSeeder extends Seeder
                                 'country' => $location->country
                             ]
                         )
+                    ]
+                )
+            )->has(
+                Inventory::factory()->count(1)->hasAttached(
+                    Item::factory()->count(100)->state([
+                        'manufacturer_id' => Manufacturer::factory()
+                    ]),
+                    fn() => [
+                        'quantity' => random_int(1,100),
+                        'aisle' => random_int(1,10),
+                        'shelf' => chr(rand(65,90)),
+                        'batch' => Str::uuid(),
+                        'expiry_date' => now()->addDays(rand(0, now()->diffInDays(now()->addMonths(1))))
                     ]
                 )
             )->create();
