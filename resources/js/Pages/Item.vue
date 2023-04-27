@@ -13,12 +13,14 @@ const currentPasswordInput = ref(null);
 
 const form = useForm({
     name:'',
-    city:'',
-    state: '',
-    country:''
+    category:'',
+    manu: '',
+    minPrice:'',
+    maxPrice:'',
+    promotion:''
 });
 
-const chooseStore = () => {
+const chooseItem = () => {
     //make new route in web.php
     form.put(route(''), {
         preserveScroll: true,
@@ -32,18 +34,14 @@ const chooseStore = () => {
 export default {
     data(){
         return {
-            // input:{
-            //     name:"",
-            //     city:"",
-            //     state:"",
-            //     country:""
-            // },
-            stores:[],
-            store:{
-                name:"",
-                location:"",
-                status:""
-            }
+            item:{
+                name:'',
+                category:'',
+                manu: '',
+                price:'',
+                promotion:''
+            },
+            items:[],
         }
     }
 }
@@ -67,20 +65,28 @@ export default {
 
             <form @submit.prevent="submit" class="mt-6 space-y-3">
                     <div class="flex items-center space-x-3">
-                    <InputLabel for="name" value="Store Name" class="w-1/12"/>
+                    <InputLabel for="name" value="Item Name" class="w-1/12"/>
                     <TextInput id="name" v-model="form.name" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
                     </div>
                     <div class="flex items-center space-x-3">
-                    <InputLabel for="city" value="City" class="w-1/12"/>
-                    <TextInput id="city" v-model="form.city" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    <InputLabel for="cat" value="Category" class="w-1/12"/>
+                    <TextInput id="cat" v-model="form.category" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
                     </div>
                     <div class="flex items-center space-x-3">
-                    <InputLabel for="state" value="State" class="w-1/12"/>
-                    <TextInput id="state" v-model="form.state" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    <InputLabel for="manu" value="Manufacturer" class="w-1/12"/>
+                    <TextInput id="manu" v-model="form.manu" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
                     </div>
                     <div class="flex items-center space-x-3">
-                    <InputLabel for="country" value="Country" class="w-1/12" />
-                    <TextInput id="country" v-model="form.country" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    <InputLabel for="minPrice" value="Price" class="w-1/12" />
+                    <TextInput id="minPrice" v-model="form.minPrice" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-3">
+                    <InputLabel for="maxPrice" value="Price" class="w-1/12" />
+                    <TextInput id="maxPrice" v-model="form.maxPrice" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-3">
+                    <InputLabel for="promo" value="Promotion" class="w-1/12" />
+                    <TextInput id="promo" v-model="form.promotion" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
                     </div>
                     <div>
                     <PrimaryButton class="my-3" :disabled="form.processing">Search</PrimaryButton>
@@ -91,21 +97,21 @@ export default {
             <table class="table-auto border-separate border-spacing-y-3 border-spacing-x-3 rounded bg-white">
                 <thead class="space-x-5 border-spacing-x-4">
                 <tr>
-                    <th>Store Name</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Country</th>
-                    <th>Status</th>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Manufacturer</th>
+                    <th>Price</th>
+                    <th>Promotion</th>
                     <!-- <th>Choose</th> -->
                 </tr>
                 </thead>
-                <tbody v-if="stores.length"  class="space-y-5 border-spacing-3">
-                    <tr v-for="store in stores" :key="store.name">
-                        <td>{{store.name}}</td>
-                        <td>{{store.city}}</td>
-                        <td>{{store.state}}</td>
-                        <td>{{store.country}}</td>
-                        <td>{{store.status}}</td>
+                <tbody v-if="items.length"  class="space-y-5 border-spacing-3">
+                    <tr v-for="item in items" :key="item.name">
+                        <td>{{item.name}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.manu}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.promotion}}</td>
                         <td><button>Select</button></td>
                     </tr>
                 </tbody>
