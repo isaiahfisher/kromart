@@ -19,6 +19,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "element-plus": "^2.2.36"
+        "element-plus": "^2.2.36",
+        "laravel-vue-pagination": "^4.1.0"
     }
 }

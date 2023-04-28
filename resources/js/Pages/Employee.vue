@@ -8,6 +8,8 @@ import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
+const props = defineProps(['employees']);
+
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
 
@@ -19,36 +21,16 @@ const form = useForm({
     title:''
 });
 
-const chooseEmployee = () => {
+const submit = () => {
     //make new route in web.php
-    form.put(route(''), {
+    form.post(route('employee.index'), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
         onError: () => {
         },
     });
 };
-</script>
-<script>
-export default {
-    data(){
-        return {
-            // input:{
-            //     name:"",
-            //     city:"",
-            //     state:"",
-            //     country:""
-            // },
-            employees:[],
-            employee:{
-                name:"",
-                salary:"",
-                ssn:"",
-                position:""
-            }
-        }
-    }
-}
+
+
 </script>
 
 <template>
@@ -105,9 +87,9 @@ export default {
                     <!-- <th>Choose</th> -->
                 </tr>
                 </thead>
-                <tbody v-if="employees.length"  class="space-y-5 border-spacing-3">
-                    <tr v-for="employee in employees" :key="employee.ssn">
-                        <td>{{employee.name}}</td>
+                <tbody v-if="props.employees.length"  class="space-y-5 border-spacing-3">
+                    <tr v-for="employee in props.employees" :key="employee.ssn">
+                        <td>{{employee.firstname}}</td>
                         <td>{{employee.salary}}</td>
                         <td>{{employee.ssn}}</td>
                         <td>{{employee.title}}</td>

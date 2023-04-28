@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,9 +31,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/employee', function () {
-    return Inertia::render('Employee');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+Route::post('employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+
+Route::get('/employee/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
 
 Route::get('/inventory', function () {
     return Inertia::render('Employee');

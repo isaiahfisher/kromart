@@ -19,7 +19,7 @@ const form = useForm({
 });
 
 const chooseStore = () => {
-    //make new route in web.php
+    //make new route in api.php
     form.put(route(''), {
         preserveScroll: true,
         onSuccess: () => form.reset(),
@@ -39,11 +39,6 @@ export default {
             //     country:""
             // },
             stores:[],
-            store:{
-                name:"",
-                location:"",
-                status:""
-            }
         }
     }
 }
