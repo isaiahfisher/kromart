@@ -79,7 +79,8 @@ const submit = () => {
             <table class="table-auto border-separate border-spacing-y-3 border-spacing-x-3 rounded bg-white">
                 <thead class="space-x-5 border-spacing-x-4">
                 <tr>
-                    <th>Employee</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Salary</th>
                     <th>Position</th>
                     <th>Last 4 digits of SSN</th>
@@ -90,6 +91,7 @@ const submit = () => {
                 <tbody v-if="props.employees.length"  class="space-y-5 border-spacing-3">
                     <tr v-for="employee in props.employees" :key="employee.ssn">
                         <td>{{employee.firstname}}</td>
+                        <td>{{employee.lastname}}</td>
                         <td>{{employee.salary}}</td>
                         <td>{{employee.ssn}}</td>
                         <td>{{employee.title}}</td>

@@ -22,7 +22,7 @@ class EmployeeController extends Controller
                 $employees = $employees->where('ssn', $filters['ssn']);
 
             $employees = $employees->get();
-        } else 
+        } else
         {
             $employees = Employee::all();
         }
@@ -41,7 +41,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        return Inertia::render('Employee', ['employee' => $employee]);        
+        return Inertia::render('Employee', ['employee' => $employee]);
     }
 
     public function edit(Employee $employee)

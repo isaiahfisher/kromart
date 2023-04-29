@@ -10,7 +10,7 @@ import { ref } from 'vue';
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
-
+const props = defineProps(['stores']);
 const form = useForm({
     name:'',
     city:'',
@@ -19,30 +19,15 @@ const form = useForm({
 });
 
 const chooseStore = () => {
-    //make new route in api.php
-    form.put(route(''), {
+    //make new route in web.php
+    form.post(route('store.index'), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
-        onError: () => {
-        },
+        onError: () => {},
     });
 };
+console.log(props.stores);
 </script>
-<script>
-export default {
-    data(){
-        return {
-            // input:{
-            //     name:"",
-            //     city:"",
-            //     state:"",
-            //     country:""
-            // },
-            stores:[],
-        }
-    }
-}
-</script>
+
 
 <template>
     <Head title="Dashboard" />
@@ -60,7 +45,7 @@ export default {
                     <div class="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
                 </div> -->
 
-            <form @submit.prevent="submit" class="mt-6 space-y-3">
+            <form @submit.prevent="chooseStore" class="mt-6 space-y-3">
                     <div class="flex items-center space-x-3">
                     <InputLabel for="name" value="Store Name" class="w-1/12"/>
                     <TextInput id="name" v-model="form.name" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
@@ -94,12 +79,12 @@ export default {
                     <!-- <th>Choose</th> -->
                 </tr>
                 </thead>
-                <tbody v-if="stores.length"  class="space-y-5 border-spacing-3">
-                    <tr v-for="store in stores" :key="store.name">
+                <tbody v-if="props.stores.length"  class="space-y-5 border-spacing-3">
+                    <tr v-for="store in props.stores" :key="store.name">
                         <td>{{store.name}}</td>
-                        <td>{{store.city}}</td>
-                        <td>{{store.state}}</td>
-                        <td>{{store.country}}</td>
+                        <td>{{form.city}}</td>
+                        <td>{{form.state}}</td>
+                        <td>{{form.country}}</td>
                         <td>{{store.status}}</td>
                         <td><button>Select</button></td>
                     </tr>
