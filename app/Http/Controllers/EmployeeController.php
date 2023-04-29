@@ -11,14 +11,12 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-
         $validated = $request->validate([
-            'store' => 'required|number'
+            'store' => 'required'
         ]);
 
-
         $filters = $request->all();
-        $employees = Employee::whereRelation('stores', 'id', $filters['store']);
+        $employees = Employee::whereRelation('stores', 'store_id', $filters['store']);
 
         if (isset($filters['name']))
             $employees = $employees->where('firstname', $filters['name']);
@@ -32,7 +30,7 @@ class EmployeeController extends Controller
             $employees = $employees->where('title', $filters['title']);
 
         $employees = $employees->get();
-        return Inertia::render('Employee', ['employees' => $employees]);
+        return Inertia::render('Employee', ['store' => $filters['store'],'employees' => $employees]);
     }
 
     public function create()

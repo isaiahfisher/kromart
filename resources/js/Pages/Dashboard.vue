@@ -5,12 +5,12 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
 const props = defineProps(['stores']);
+
 const form = useForm({
     name:'',
     city:'',
@@ -20,12 +20,16 @@ const form = useForm({
 
 const chooseStore = () => {
     //make new route in web.php
-    form.post(route('store.index'), {
+    form.post(route('dashboard'), {
         preserveScroll: true,
         onError: () => {},
     });
 };
-console.log(props.stores);
+
+const selectStore = (store) => {
+    router.post(route('employee.index'), {store: store});
+}
+
 </script>
 
 
@@ -82,11 +86,11 @@ console.log(props.stores);
                 <tbody v-if="props.stores.length"  class="space-y-5 border-spacing-3">
                     <tr v-for="store in props.stores" :key="store.name">
                         <td>{{store.name}}</td>
-                        <td>{{form.city}}</td>
-                        <td>{{form.state}}</td>
-                        <td>{{form.country}}</td>
+                        <td>{{store.location.city}}</td>
+                        <td>{{store.location.state}}</td>
+                        <td>{{store.location.country}}</td>
                         <td>{{store.status}}</td>
-                        <td><button>Select</button></td>
+                        <td><button @click="selectStore(store.id)">Select</button></td>
                     </tr>
                 </tbody>
                 <tbody v-else>

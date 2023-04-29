@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Store;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Builder;
 
 class StoreController extends Controller
 {
@@ -14,37 +15,35 @@ class StoreController extends Controller
     {
         $filters = $request->all();
         $stores = Store::query();
-        $location= Location::query();
 
         if (!empty($filters))
         {
             if (isset($filters['name']))
                 $stores = $stores->where('name', $filters['name']);
 
-            if (isset($filters['country'])){
-                $location= $location->where('country', $filters['country']);
-                $stores= $stores->where('location_id', $location['id']);
-            }
-            if (isset($filters['state'])){
-                $location= $location->where('state', $filters['state']);
-                $stores= $stores->where('location_id', $location['id']);
-            }
-            if (isset($filters['city'])){
-                $location = $location->where('city',$filters['city']);
-                $stores = $stores->where('location_id', $location['id']);
+
+            if (isset($filters['country']) || isset($filters['state']) || isset($filters['city']))
+            {
+                $stores = $stores->whereHas('location', function(Builder $query) use ($filters) {
+                    if (isset($filters['country'])){
+                        $query->where('country', $filters['country']);
+                    }
+                    if (isset($filters['state'])){
+                        $query->where('state', $filters['state']);
+                    }
+                    if (isset($filters['city'])){
+                        $query->where('city', $filters['city']);
+                    }
+                });
+            } else
+            {
+                $stores = $stores->with('location');
             }
 
-            $stores = $stores->get();
+            $stores = $stores->with('location')->get();
         } else
         {
-            // $stores = Store::all();
-            // $location = $location->where('id',$stores['location_id']);
-            // $location=Location::all();
-            $stores=Store::all();
-            $location=Location::with('stores')->where('id',$stores->location_id)->get();
-            $stores = ['name' => $stores['name'], 'city' => $location['city'],
-                        'state' => $location['state'], 'country' => $location('country'),
-                        'status'=> $stores['status'] ];
+            $stores=Store::with('location')->get();
         }
         return Inertia::render('Dashboard', ['stores' => $stores]);
     }

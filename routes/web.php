@@ -2,12 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
-<<<<<<< HEAD
 use App\Http\Controllers\StoreController;
-=======
 use App\Http\Controllers\ItemController;
 use App\Http\Controlelrs\InventoryController;
->>>>>>> 6d284de84cb737d919c33882ae07a05043a14406
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,26 +31,16 @@ Route::get('/', function () {
     ]);
 });
 
-<<<<<<< HEAD
-// Route::get('/dashboard', [StoreController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', [StoreController::class, 'index']) ->middleware(['auth', 'verified'])->name('store.index');
-Route::post('dashboard', [StoreController::class, 'index']) ->middleware(['auth', 'verified'])->name('store.index');
-Route::get('/employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
-Route::post('employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
-=======
 //all authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
 
     //dashboard route
-    Route::get('/dashboard', function () { 
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
->>>>>>> 6d284de84cb737d919c33882ae07a05043a14406
+    Route::match(['get', 'post'], '/dashboard', [StoreController::class, 'index'])->name('dashboard');
 
     //employee routes
     Route::prefix('employee')->group(function () {
-        Route::post('/', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+        Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
         Route::get('/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
     });
 
