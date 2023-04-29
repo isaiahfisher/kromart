@@ -8,7 +8,7 @@ import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-const props = defineProps(['employees']);
+const props = defineProps(['store', 'employees']);
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -18,7 +18,8 @@ const form = useForm({
     salaryMin:'',
     salaryMax:'',
     ssn: '',
-    title:''
+    title:'',
+    store: props.store
 });
 
 const submit = () => {
@@ -50,6 +51,7 @@ const submit = () => {
                 </div> -->
 
             <form @submit.prevent="submit" class="mt-6 space-y-3">
+                    <input type="hidden" id="store" name="store" v-model="store">
                     <div class="flex items-center space-x-3">
                     <InputLabel for="name" value="Employee Name" class="w-1/12"/>
                     <TextInput id="name" v-model="form.name" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
