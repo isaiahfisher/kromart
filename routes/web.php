@@ -40,7 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //employee routes
     Route::prefix('employee')->group(function () {
-        Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+        Route::post('/', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
         Route::get('/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
     });
 
