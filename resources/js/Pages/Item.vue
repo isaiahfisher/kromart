@@ -7,20 +7,20 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
+
+const item = ref({});
 
 const form = useForm({
     name:'',
     category:'',
     manu: '',
     minPrice:'',
-    maxPrice:'',
-    promotion:''
+    maxPrice:''
 });
 
-const chooseItem = () => {
+const submit = () => {
     //make new route in web.php
     form.put(route(''), {
         preserveScroll: true,
@@ -30,23 +30,6 @@ const chooseItem = () => {
     });
 };
 </script>
-<script>
-export default {
-    data(){
-        return {
-            item:{
-                name:'',
-                category:'',
-                manu: '',
-                price:'',
-                promotion:''
-            },
-            items:[],
-        }
-    }
-}
-</script>
-
 <template>
     <Head title="Dashboard" />
 
@@ -84,10 +67,6 @@ export default {
                     <InputLabel for="maxPrice" value="Price" class="w-1/12" />
                     <TextInput id="maxPrice" v-model="form.maxPrice" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
                     </div>
-                    <div class="flex items-center space-x-3">
-                    <InputLabel for="promo" value="Promotion" class="w-1/12" />
-                    <TextInput id="promo" v-model="form.promotion" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
-                    </div>
                     <div>
                     <PrimaryButton class="my-3" :disabled="form.processing">Search</PrimaryButton>
                     </div>
@@ -111,7 +90,6 @@ export default {
                         <td>{{item.category}}</td>
                         <td>{{item.manu}}</td>
                         <td>{{item.price}}</td>
-                        <td>{{item.promotion}}</td>
                         <td><button>Select</button></td>
                     </tr>
                 </tbody>

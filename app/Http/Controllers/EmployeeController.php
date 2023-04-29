@@ -11,21 +11,27 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
+
+        $validated = $request->validate([
+            'store' => 'required|number'
+        ]);
+
+
         $filters = $request->all();
-        $employees = Employee::query();
-        if (!empty($filters))
-        {
-            if (isset($filters['name']))
-                $employees = $employees->where('firstname', $filters['name']);
+        $employees = Employee::whereRelation('stores', 'id', $filters['store']);
 
-            if (isset($filters['ssn']))
-                $employees = $employees->where('ssn', $filters['ssn']);
+        if (isset($filters['name']))
+            $employees = $employees->where('firstname', $filters['name']);
+        if (isset($filters['ssn']))
+            $employees = $employees->where('ssn', $filters['ssn']);
+        if (isset($filters['salaryMin']))
+            $employees = $employees->where('salary', '>=', $filters['salaryMin']);
+        if (isset($filters['salaryMax']))
+            $employees = $employees->where('salary', '<=', $filters['salaryMax']);
+        if (isset($filters['title']))
+            $employees = $employees->where('title', $filters['title']);
 
-            $employees = $employees->get();
-        } else
-        {
-            $employees = Employee::all();
-        }
+        $employees = $employees->get();
         return Inertia::render('Employee', ['employees' => $employees]);
     }
 
@@ -41,7 +47,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        return Inertia::render('Employee', ['employee' => $employee]);
+        //todo: employee show
     }
 
     public function edit(Employee $employee)
