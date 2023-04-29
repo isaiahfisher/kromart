@@ -7,11 +7,9 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps(['store', 'employees']);
-
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
 
 const form = useForm({
     name:'',
@@ -30,6 +28,10 @@ const submit = () => {
         },
     });
 };
+
+const selectInventory = () => {
+    router.post(route('inventory.index'), {store: props.store});
+}
 
 
 </script>
@@ -97,7 +99,7 @@ const submit = () => {
                         <td>{{employee.salary}}</td>
                         <td>{{employee.ssn}}</td>
                         <td>{{employee.title}}</td>
-                        <td><button>Select</button></td>
+                        <td><button @click="selectInventory()">Select</button></td>
                     </tr>
                 </tbody>
                 <tbody v-else>

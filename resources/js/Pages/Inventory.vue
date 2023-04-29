@@ -8,42 +8,27 @@ import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
+const props = defineProps(['store', 'inventories']);
 
 const form = useForm({
     name:'',
     productid:'',
     qtt: '',
     batch:'',
-    exp:''
+    exp:'',
+    store: props.store
 });
 
 const chooseInventory = () => {
     //make new route in web.php
     form.put(route(''), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
         onError: () => {
         },
     });
 };
-</script>
-<script>
-export default {
-    data(){
-        return {
-            item:{
-                name:"",
-                productid:"",
-                qtt:"",
-                batch:"",
-                exp:""
-            },
-            items:[],
-        }
-    }
-}
+
+console.log(props.inventories);
 </script>
 
 <template>
@@ -100,15 +85,17 @@ export default {
                     <!-- <th>Choose</th> -->
                 </tr>
                 </thead>
-                <tbody v-if="items.length"  class="space-y-5 border-spacing-3">
-                    <tr v-for="item in items" :key="item.productid">
-                        <td>{{item.name}}</td>
-                        <td>{{item.productid}}</td>
-                        <td>{{item.qtt}}</td>
-                        <td>{{item.batch}}</td>
-                        <td>{{item.exp}}</td>
-                        <td><button>Select</button></td>
-                    </tr>
+                <tbody v-if="inventories.length"  class="space-y-5 border-spacing-3">
+                    <template v-for="inventory in inventories" :key="inventory.id">
+                        <tr v-for="item in inventory.items" :key="item.id">
+                            <td>{{item.name}}</td>
+                            <td>{{item.sku}}</td>
+                            <td>{{item.pivot.quantity}}</td>
+                            <td>{{item.pivot.batch}}</td>
+                            <td>{{item.pivot.expiry_date}}</td>
+                            <td><button>Select</button></td>
+                        </tr>
+                    </template>
                 </tbody>
                 <tbody v-else>
                     <tr>

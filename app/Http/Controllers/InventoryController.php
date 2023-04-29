@@ -4,12 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class InventoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //return view with all inventories
+        Log::info($request->all());
+        $validated = $request->validate([
+            'store' => 'required'
+        ]);        
+
+        $filters = $request->all();
+        $inventories = Inventory::whereRelation('store', 'store_id', $filters['store'])->with('items')->get();
+
+        return Inertia::render('Inventory', ['store' => $filters['store'],'inventories' => $inventories]);
+
+
     }
 
     public function create()

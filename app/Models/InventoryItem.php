@@ -14,6 +14,7 @@ class InventoryItem extends Pivot
 
     public $incrementing = true;
     public $table = 'inventory_item';
+    public $fillable = [];
 
     public function inventory(): BelongsTo
     {

@@ -18,6 +18,6 @@ class Item extends Model
 
     public function inventories(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class, 'inventory_item')->as('inventory_item')->using(InventoryItem::class)->withTimestamps();
+        return $this->belongsToMany(Item::class, 'inventory_item')->withPivot('quantity', 'aisle', 'shelf', 'batch', 'expiry_date')->as('inventory_item')->using(InventoryItem::class)->withTimestamps();
     }
 }

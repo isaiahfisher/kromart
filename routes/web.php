@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controlelrs\InventoryController;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -51,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Inventory routes
     Route::prefix('inventory')->group(function () {
-        Route::match(['get', 'post'], '/', [InventoryController::class, 'index'])->middleware(['auth', 'verified'])->name('iventory.index');
+        Route::match(['get', 'post'], '/', [InventoryController::class, 'index'])->middleware(['auth', 'verified'])->name('inventory.index');
     });
 });
 
