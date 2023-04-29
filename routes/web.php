@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controlelrs\InventoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,6 +19,7 @@ use Inertia\Inertia;
 |
 */
 
+//unauthenticated route for login
 Route::get('/', function () {
     return Inertia::render('Login', [
                 'title' => 'Login Page',
@@ -27,23 +30,32 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//all authenticated routes
+Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::get('/employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
-Route::post('employee', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+    //dashboard route
+    Route::get('/dashboard', function () { 
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 
-Route::get('/employee/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
+    //employee routes
+    Route::prefix('employee')->group(function () {
+        Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+        Route::get('/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
+    });
 
-Route::get('/inventory', function () {
-    return Inertia::render('Employee');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    //item routes
+    Route::prefix('item')->group(function () {
+        Route::match(['get', 'post'], '/', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('item.index');
+    });
 
-Route::get('/item', function () {
-    return Inertia::render('Employee');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    //Inventory routes
+    Route::prefix('inventory')->group(function () {
+        Route::match(['get', 'post'], '/', [InventoryController::class, 'index'])->middleware(['auth', 'verified'])->name('iventory.index');
+    });
+});
 
+//default profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

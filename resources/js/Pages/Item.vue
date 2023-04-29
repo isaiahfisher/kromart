@@ -20,7 +20,7 @@ const form = useForm({
     promotion:''
 });
 
-const chooseItem = () => {
+const submit = () => {
     //make new route in web.php
     form.put(route(''), {
         preserveScroll: true,
@@ -30,23 +30,6 @@ const chooseItem = () => {
     });
 };
 </script>
-<script>
-export default {
-    data(){
-        return {
-            item:{
-                name:'',
-                category:'',
-                manu: '',
-                price:'',
-                promotion:''
-            },
-            items:[],
-        }
-    }
-}
-</script>
-
 <template>
     <Head title="Dashboard" />
 
