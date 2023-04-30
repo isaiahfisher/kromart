@@ -12,7 +12,8 @@ import { router } from '@inertiajs/vue3';
 const props = defineProps(['store', 'employees']);
 
 const form = useForm({
-    name:'',
+    firstname:'',
+    lastname:'',
     salaryMin:'',
     salaryMax:'',
     ssn: '',
@@ -55,8 +56,12 @@ const selectInventory = () => {
             <form @submit.prevent="submit" class="mt-6 space-y-3">
                     <input type="hidden" id="store" name="store" v-model="form.store">
                     <div class="flex items-center space-x-3">
-                    <InputLabel for="name" value="Employee Name" class="w-1/12"/>
-                    <TextInput id="name" v-model="form.name" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    <InputLabel for="firstname" value="Employee First Name" class="w-1/12"/>
+                    <TextInput id="firstname" v-model="form.firstname" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-3">
+                    <InputLabel for="lastname" value="Employee Last Name" class="w-1/12"/>
+                    <TextInput id="lastname" v-model="form.lastname" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
                     </div>
                     <div class="flex items-center space-x-3">
                     <InputLabel for="salaryMin" value="Min. Salary" class="w-1/12"/>
@@ -88,7 +93,7 @@ const selectInventory = () => {
                     <th>Salary</th>
                     <th>Position</th>
                     <th>Last 4 digits of SSN</th>
-                    <th>Position</th>
+                    <!-- <th>Action</th> -->
                     <!-- <th>Choose</th> -->
                 </tr>
                 </thead>
@@ -97,9 +102,9 @@ const selectInventory = () => {
                         <td>{{employee.firstname}}</td>
                         <td>{{employee.lastname}}</td>
                         <td>{{employee.salary}}</td>
-                        <td>{{employee.ssn}}</td>
                         <td>{{employee.title}}</td>
-                        <td><button @click="selectInventory()">Select</button></td>
+                        <td>{{employee.ssn}}</td>
+                        <!-- <td><button @click="selectInventory()">Select</button></td> -->
                     </tr>
                 </tbody>
                 <tbody v-else>

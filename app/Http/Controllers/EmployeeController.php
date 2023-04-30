@@ -18,8 +18,10 @@ class EmployeeController extends Controller
         $filters = $request->all();
         $employees = Employee::whereRelation('stores', 'store_id', $filters['store']);
 
-        if (isset($filters['name']))
-            $employees = $employees->where('firstname', $filters['name']);
+        if (isset($filters['firstname']))
+            $employees = $employees->where('firstname', $filters['firstname']);
+        if (isset($filters['lastname']))
+            $employees = $employees->where('lastname', $filters['lastname']);
         if (isset($filters['ssn']))
             $employees = $employees->where('ssn', $filters['ssn']);
         if (isset($filters['salaryMin']))

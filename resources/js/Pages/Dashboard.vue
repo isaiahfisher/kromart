@@ -29,7 +29,9 @@ const chooseStore = () => {
 const selectStore = (store) => {
     router.post(route('employee.index'), {store: store});
 }
-
+const selectInventory= (store) => {
+    router.post(route('inventory.index'), {store:store})
+}
 </script>
 
 
@@ -90,7 +92,8 @@ const selectStore = (store) => {
                         <td>{{store.location.state}}</td>
                         <td>{{store.location.country}}</td>
                         <td>{{store.status}}</td>
-                        <td><button @click="selectStore(store.id)">Select</button></td>
+                        <td><PrimaryButton @click="selectStore(store.id)">Select Employee</PrimaryButton></td>
+                        <td><PrimaryButton @click="selectInventory(store.id)">Select Inventory</PrimaryButton></td>
                     </tr>
                 </tbody>
                 <tbody v-else>

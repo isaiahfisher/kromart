@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index($request)
     {
-        //return view with all items
+
+
     }
 
     public function create()
