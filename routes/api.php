@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::delete('/employee/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+Route::delete('/employee/{id}', [EmployeeController::class, 'delete']);

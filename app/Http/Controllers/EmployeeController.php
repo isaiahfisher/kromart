@@ -63,10 +63,11 @@ class EmployeeController extends Controller
         $employee->save();
     }
 
-    public function delete($id)
+    public function delete(Employee $employee)
     {
-        Employee::where('id', $id)->delete();
-        // $employee->delete();
+
+        $employee->delete();
+        // return Redirect::to('/dashboard');
     }
 
 
