@@ -42,7 +42,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('employee')->group(function () {
         Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->name('employee.index');
         Route::get('/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
-        Route::delete('/{employee}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
 
     //item routes

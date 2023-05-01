@@ -65,9 +65,8 @@ class EmployeeController extends Controller
 
     public function delete(Employee $employee)
     {
-
         $employee->delete();
-        // return Redirect::to('/dashboard');
+        return response('OK', 200);
     }
 
 
