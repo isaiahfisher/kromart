@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Employee;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Response;
 class EmployeeController extends Controller
 {
     public function index(Request $request)
@@ -61,8 +63,11 @@ class EmployeeController extends Controller
         $employee->save();
     }
 
-    public function delete(Employee $employee)
+    public function delete($id)
     {
-        $employee->delete();
+        Employee::where('id', $id)->delete();
+        // $employee->delete();
     }
+
+
 }

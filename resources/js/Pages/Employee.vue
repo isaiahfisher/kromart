@@ -8,9 +8,14 @@ import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import DangerButton from '@/Components/DangerButton.vue'
+import Modal from '@/Components/Modal.vue';
 
 const props = defineProps(['store', 'employees']);
+const confirmingEmployeeDeletion = ref(false);
+var EmpId ='';
 
+// console.log(props.employees);
 const form = useForm({
     firstname:'',
     lastname:'',
@@ -32,7 +37,25 @@ const submit = () => {
 
 const selectInventory = () => {
     router.post(route('inventory.index'), {store: props.store});
-}
+};
+
+const confirmEmployeeDeletion = (id) =>{
+    confirmingEmployeeDeletion.value = true;
+    EmpId = id;
+
+
+    //what is nexttick and why
+};
+
+const deleteEmployee = () => {
+    fetch(`/api/employee/${EmpId}`, { method: 'DELETE' })
+    .then(() => location.reload())
+};
+
+const closeModal = () => {
+    confirmEmployeeDeletion.value=false;
+    form.reset();
+};
 
 
 </script>
@@ -92,7 +115,7 @@ const selectInventory = () => {
                     <th>Last Name</th>
                     <th>Salary</th>
                     <th>Position</th>
-                    <th>Last 4 digits of SSN</th>
+                    <th>SSN</th>
                     <!-- <th>Action</th> -->
                     <!-- <th>Choose</th> -->
                 </tr>
@@ -104,6 +127,11 @@ const selectInventory = () => {
                         <td>{{employee.salary}}</td>
                         <td>{{employee.title}}</td>
                         <td>{{employee.ssn}}</td>
+                        <td><PrimaryButton>Update First Name</PrimaryButton></td>
+                        <td><PrimaryButton>Update Last Name</PrimaryButton></td>
+                        <td><PrimaryButton>Update Salary</PrimaryButton></td>
+                        <td><PrimaryButton>Update Position</PrimaryButton></td>
+                        <td><DangerButton @click="confirmEmployeeDeletion(employee.id)">Delete Employee</DangerButton></td>
                         <!-- <td><button @click="selectInventory()">Select</button></td> -->
                     </tr>
                 </tbody>
@@ -117,6 +145,18 @@ const selectInventory = () => {
             </table>
         </div>
 
-
+     <Modal :show="confirmingEmployeeDeletion" @close="closeModal">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    Are you sure you want to delete this employee?
+                </h2>
+                <DangerButton
+                        class="ml-3"
+                        @click="deleteEmployee">
+                        Delete Employee
+                    </DangerButton>
+                <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+            </div>
+        </Modal>
     </AuthenticatedLayout>
 </template>
