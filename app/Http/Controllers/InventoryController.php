@@ -11,7 +11,6 @@ class InventoryController extends Controller
 {
     public function index(Request $request)
     {
-        Log::info($request->all());
         $validated = $request->validate([
             'store' => 'required'
         ]);
