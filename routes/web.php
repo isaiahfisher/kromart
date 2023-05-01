@@ -40,18 +40,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //employee routes
     Route::prefix('employee')->group(function () {
-        Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->middleware(['auth', 'verified'])->name('employee.index');
+        Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->name('employee.index');
         Route::get('/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
+        Route::delete('/{employee}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
 
     //item routes
     Route::prefix('item')->group(function () {
-        Route::match(['get', 'post'], '/', [ItemController::class, 'index'])->middleware(['auth', 'verified'])->name('item.index');
+        Route::match(['get', 'post'], '/', [ItemController::class, 'index'])->name('item.index');
+        Route::delete('/{item}', [ItemController::class, 'delete'])->name('item.delete');
     });
 
     //Inventory routes
     Route::prefix('inventory')->group(function () {
-        Route::match(['get', 'post'], '/', [InventoryController::class, 'index'])->middleware(['auth', 'verified'])->name('inventory.index');
+        Route::match(['get', 'post'], '/', [InventoryController::class, 'index'])->name('inventory.index');
+        Route::delete('/{inventory}', [InventoryController::class, 'delete'])->name('inventory.delete');
     });
 });
 
