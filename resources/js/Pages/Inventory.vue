@@ -22,14 +22,14 @@ const form = useForm({
     store: props.store
 });
 
-// const chooseInventory = () => {
-//     //make new route in web.php
-//     form.put(route(''), {
-//         preserveScroll: true,
-//         onError: () => {
-//         },
-//     });
-// };
+ const submit = () => {
+     //make new route in web.php
+     form.post(route('inventory.index'), {
+         preserveScroll: true,
+         onError: () => {
+         },
+     });
+ };
 
 console.log(props.inventories);
 const selectItem= (item) => {
