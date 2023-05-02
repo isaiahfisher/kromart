@@ -99,27 +99,6 @@ class EmployeeController extends Controller
         if(isset($position))
             $employee->title=$position;
         $employee->save();
-        // $firstname = $request->firstname;
-        // $employee->isDirty('firstname');
-        // $employee->isDirty('lastname');
-        // $employee->isDirty('personal_email');
-        // $employee->isDirty('ssn');
-        // $employee->isDirty('salary');
-
-        // $employee->isDirty('location_id');
-        // $employee->isDirty('hire_date');
-        // $employee->isDirty('termination_date');
-
-        // $employee->isDirty('termindation_reason');
-
-
-
-        // $employee->lastname=$firstname;
-        // $employee->save();
-        // $employee->save();
-        //TODO: assign attributes to the employee from the request
-        // $test=$employee->i
-        // $student->name = $request->input('name');
         return Redirect::route('dashboard');
     }
 
@@ -127,7 +106,7 @@ class EmployeeController extends Controller
     {
         Log::info($employee->all());
         $employee->delete();
-        return response('OK', 200);
+        return back();
     }
 
 
