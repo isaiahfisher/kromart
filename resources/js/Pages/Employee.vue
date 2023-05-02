@@ -10,6 +10,7 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import DangerButton from '@/Components/DangerButton.vue'
 import Modal from '@/Components/Modal.vue';
+import SecondaryButton from'@/Components/SecondaryButton.vue';
 
 const props = defineProps(['store', 'employees']);
 const confirmingEmployeeDeletion = ref(false);
@@ -49,12 +50,15 @@ const confirmEmployeeDeletion = (id) =>{
 
 const deleteEmployee = () => {
     fetch(`/api/employee/${EmpId}`, { method: 'DELETE' })
-    .then(() => location.reload())
+    .then(({response}) => {
+        //closeModal();
+        window.location.href ="dashboard"
+        return;
+        })
 };
 
 const closeModal = () => {
     confirmEmployeeDeletion.value=false;
-    form.reset();
 };
 
 
@@ -150,12 +154,14 @@ const closeModal = () => {
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                     Are you sure you want to delete this employee?
                 </h2>
+                <div class="mt-6 space-x-5 flex justify-start">
+                     <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
                 <DangerButton
                         class="ml-3"
                         @click="deleteEmployee">
                         Delete Employee
                     </DangerButton>
-                <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+                </div>
             </div>
         </Modal>
     </AuthenticatedLayout>
