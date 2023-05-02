@@ -66,7 +66,6 @@ class EmployeeController extends Controller
     public function delete(Employee $employee)
     {
         $employee->delete();
-        // return response('OK', 200);
         return back();
     }
 
