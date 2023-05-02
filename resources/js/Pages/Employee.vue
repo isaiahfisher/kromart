@@ -14,9 +14,39 @@ import SecondaryButton from'@/Components/SecondaryButton.vue';
 
 const props = defineProps(['store', 'employees']);
 const confirmingEmployeeDeletion = ref(false);
+const confirmingEmployeeUpdate= ref(false);
+const firstnameInput = ref(null);
 var EmpId ='';
 
+//change employee name
+const changeNameForm = useForm({
+    firstname: '',
+    lastname:'',
+    salaray:'',
+    termination:'',
+    termReason:'',
+    position:'',
+});
 // console.log(props.employees);
+
+const changeFirstName = (id) => {
+    console.log(id);
+    changeNameForm.patch(route('employee.update',{employee:id}), {
+        preserveScroll: true,
+        onSuccess: () => closeModal(),
+        onError: () => firstnameInput.value.focus(),
+        onFinish: () => changeNameForm.reset(),
+    });
+};
+
+const confirmEmployeeUpdate= (id) =>{
+    confirmingEmployeeUpdate.value = true;
+    EmpId = id;
+    console.log(EmpId);
+    //what is nexttick and why
+};
+
+//table
 const form = useForm({
     firstname:'',
     lastname:'',
@@ -24,6 +54,9 @@ const form = useForm({
     salaryMax:'',
     ssn: '',
     title:'',
+    hire_date:'',
+    termination_date:'',
+    termination_reason:'',
     store: props.store
 });
 
@@ -43,10 +76,9 @@ const selectInventory = () => {
 const confirmEmployeeDeletion = (id) =>{
     confirmingEmployeeDeletion.value = true;
     EmpId = id;
-
-
     //what is nexttick and why
 };
+
 
 const deleteEmployee = () => {
     fetch(`/api/employee/${EmpId}`, { method: 'DELETE' })
@@ -56,6 +88,7 @@ const deleteEmployee = () => {
         return;
         })
 };
+
 
 const closeModal = () => {
     confirmEmployeeDeletion.value=false;
@@ -120,8 +153,9 @@ const closeModal = () => {
                     <th>Salary</th>
                     <th>Position</th>
                     <th>SSN</th>
-                    <!-- <th>Action</th> -->
-                    <!-- <th>Choose</th> -->
+                    <th>Hire date</th>
+                    <th>Termination date</th>
+                    <th>Termination Reason</th>
                 </tr>
                 </thead>
                 <tbody v-if="props.employees.length"  class="space-y-5 border-spacing-3">
@@ -131,10 +165,10 @@ const closeModal = () => {
                         <td>{{employee.salary}}</td>
                         <td>{{employee.title}}</td>
                         <td>{{employee.ssn}}</td>
-                        <td><PrimaryButton>Update First Name</PrimaryButton></td>
-                        <td><PrimaryButton>Update Last Name</PrimaryButton></td>
-                        <td><PrimaryButton>Update Salary</PrimaryButton></td>
-                        <td><PrimaryButton>Update Position</PrimaryButton></td>
+                        <td>{{employee.hire_date}}</td>
+                        <td>{{employee.termination_date}}</td>
+                        <td>{{employee.termination_reason}}</td>
+                        <td><PrimaryButton @click="confirmEmployeeUpdate(employee.id)">Update First Name</PrimaryButton></td>
                         <td><DangerButton @click="confirmEmployeeDeletion(employee.id)">Delete Employee</DangerButton></td>
                         <!-- <td><button @click="selectInventory()">Select</button></td> -->
                     </tr>
@@ -164,5 +198,50 @@ const closeModal = () => {
                 </div>
             </div>
         </Modal>
+
+
+          <Modal :show="confirmingEmployeeUpdate" @close="closeModal">
+            <div class="p-6">
+                <form @submit.prevent="changeFirstName(EmpId)" class="mt-6 space-y-6">
+                <div class="mt-6">
+
+                     <div class="flex items-center space-x-7">
+                    <InputLabel for="firstname" value="Employee First Name" class="w-2/12"/>
+                    <TextInput id="firstname" v-model="changeNameForm.firstname" placeholder="Enter New First Name" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+
+                    <div class="flex items-center space-x-7">
+                    <InputLabel for="lastname" value="Employee Last Name" class="w-2/12"/>
+                    <TextInput id="lastname" v-model="changeNameForm.lastname" placeholder="Enter New Last Name" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-7">
+                    <InputLabel for="salary" value="Salary" class="w-2/12"/>
+                    <TextInput id="salary" v-model="changeNameForm.salary" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-7">
+                    <InputLabel for="position" value="Position" class="w-2/12"/>
+                    <TextInput id="position" v-model="changeNameForm.position" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-7">
+                    <InputLabel for="termination" value="Termination (y/n)" class="w-2/12"/>
+                    <TextInput id="termination" v-model="changeNameForm.termination" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+                    <div class="flex items-center space-x-7">
+                    <InputLabel for="termReason" value="Termination Reason" class="w-2/12"/>
+                    <TextInput id="termReason" v-model="changeNameForm.termReason" class="mt-1 block w-fit h-8 px-2 border-black border-2" />
+                    </div>
+
+                </div>
+                <div class="mt-6 space-x-5 flex justify-start">
+                     <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+                 <DangerButton
+                        :disabled="changeNameForm.processing">
+                        Update
+                    </DangerButton>
+                </div>
+                </form>
+            </div>
+        </Modal>
+
     </AuthenticatedLayout>
 </template>

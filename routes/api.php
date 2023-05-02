@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::delete('/employee/{employee}', [EmployeeController::class, 'delete']);
+Route::patch('/employee/{employee}', [EmployeeController::class, 'update'])->name('employee.update');;

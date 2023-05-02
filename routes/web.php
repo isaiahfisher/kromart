@@ -39,9 +39,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::match(['get', 'post'], '/dashboard', [StoreController::class, 'index'])->name('dashboard');
 
     //employee routes
+
     Route::prefix('employee')->group(function () {
         Route::match(['get', 'post'], '/', [EmployeeController::class, 'index'])->name('employee.index');
         Route::get('/{employee}', [EmployeeController::class, 'show'])->name('employee.show');
+        Route::patch('/{employee}', [EmployeeController::class, 'update'])->name('employee.update');
     });
 
     //item routes

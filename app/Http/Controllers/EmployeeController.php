@@ -9,6 +9,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Response;
+use Illuminate\Support\Carbon;
+
+
 class EmployeeController extends Controller
 {
     public function index(Request $request)
@@ -57,17 +60,74 @@ class EmployeeController extends Controller
         //TODO: return employee edit UI
     }
 
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, $id)
     {
-        //TODO: assign attributes to the employee from the request
+        // $request->user()->fill($request->validated());
+
+        // if ($request->user()->isDirty('email')) {
+        //     $request->user()->email_verified_at = null;
+        // }
+
+        // $request->user()->save();
+        // Log::info($request->all());
+        // Log::info($employee::find($employee->id));
+
+        Log::info($request->all());
+        Log::info($id);
+        $firstname = $request->firstname;
+        $lname= $request->lname;
+        $salary=$request->salaray;
+        $termination=$request->termination;
+        $termReason=$request->termReason;
+        $position=$request->position;
+        $employee=Employee::find($id);
+        if(isset($firstname)){
+            $employee->firstname=$firstname;
+        };
+        if(isset($lastname)){
+            $employee->lastname=$lastname;
+        }
+        if(isset($salary))
+            $employee->salary=$salary;
+        if(isset($termination)){
+            if($termination == "y" || $termination == "Y"){
+                $employee->termination_date= Carbon::now();
+            }
+        }
+        if(isset($termReason))
+            $employee->termination_reason=$termReason;
+        if(isset($position))
+            $employee->title=$position;
         $employee->save();
+        // $firstname = $request->firstname;
+        // $employee->isDirty('firstname');
+        // $employee->isDirty('lastname');
+        // $employee->isDirty('personal_email');
+        // $employee->isDirty('ssn');
+        // $employee->isDirty('salary');
+
+        // $employee->isDirty('location_id');
+        // $employee->isDirty('hire_date');
+        // $employee->isDirty('termination_date');
+
+        // $employee->isDirty('termindation_reason');
+
+
+
+        // $employee->lastname=$firstname;
+        // $employee->save();
+        // $employee->save();
+        //TODO: assign attributes to the employee from the request
+        // $test=$employee->i
+        // $student->name = $request->input('name');
+        return Redirect::route('dashboard');
     }
 
     public function delete(Employee $employee)
     {
+        Log::info($employee->all());
         $employee->delete();
-        // return response('OK', 200);
-        return back();
+        return response('OK', 200);
     }
 
 
